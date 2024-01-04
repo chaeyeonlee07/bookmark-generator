@@ -9,10 +9,6 @@ import './App.css'
     rel="stylesheet"
   />
 </>
-
-
-
-
  
 const initialInput = [
   { id: 0, name: 'Title',   body: [{ other: ['Grit'] }], chosen: true },
@@ -44,7 +40,7 @@ const font_themes = [
 function ItemList({ sections, onToggle, onEdit, onSelectTheme}) {
   const [editId, setEditId] = useState(null);
   const [editContent, setEditContent] = useState('');
-
+   
   const handleToggle = (id) => {
     setEditId(null); 
     const updatedList = sections.map(section => {
@@ -127,6 +123,7 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme}) {
 export default function App() {
   const [list, setList] = useState(initialInput);
   const [selectedTheme, setSelectedTheme] = useState(null);
+  const [layout, setLayout] = useState("vertical");
 
   const handleToggle = (updatedList) => {
     setList(updatedList);
@@ -140,6 +137,12 @@ export default function App() {
     setSelectedTheme(themeId);
   };
 
+ 
+
+  const toggleLayout = () => {
+    setLayout(layout === "vertical" ? "horizontal" : "vertical");
+  };
+
   const getFontFamilyForTheme = (themeId) => {
     const selectedTheme = font_themes.find(font_themes => font_themes.id === themeId);
     return selectedTheme ? selectedTheme.fontFamily : '';
@@ -149,6 +152,9 @@ export default function App() {
     <>
       <h1>Book Summary</h1>
       <h2>Items selected: </h2>
+      <button onClick={toggleLayout}>
+        Toggle Layout ({layout === "vertical" ? "Horizontal" : "Vertical"})
+      </button>
       <ItemList
         sections={list}
         onToggle={handleToggle}
@@ -158,7 +164,12 @@ export default function App() {
 
       <h2>Overview </h2>  
 
-      <div style={{ fontFamily: getFontFamilyForTheme(selectedTheme) }}>
+      <div
+        style={{
+          display: layout === "vertical" ? "block" : "flex",
+          flexDirection: layout === "vertical" ? "column" : "row",
+          fontFamily: getFontFamilyForTheme(selectedTheme),
+        }}>
         {list.filter(section => section.chosen).map(section => (
           <div key={section.id}>
             {section.body.map(content => (
