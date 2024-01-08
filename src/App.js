@@ -9,40 +9,41 @@ import './App.css'
     rel="stylesheet"
   />
 </>
- 
+
 const initialInput = [
-  { id: 0, name: 'Title',   body: [{ other: ['Grit'] }], chosen: true },
-  { id: 1, name: 'Publisher', body: [{other:['Scribner']}],  chosen: true},
-  { id: 2, name: 'Author', body: [{other:['Angela Duckworth']}],  chosen: true},
-  { id: 3, name: 'Period of Reading', body: [{other:['Nov 20 2021 - Nov 27 2021']}],  chosen: true}, 
+  { id: 0, name: 'Title', body: [{ other: ['Grit'] }], chosen: true },
+  { id: 1, name: 'Publisher', body: [{ other: ['Scribner'] }], chosen: true },
+  { id: 2, name: 'Author', body: [{ other: ['Angela Duckworth'] }], chosen: true },
+  { id: 3, name: 'Period of Reading', body: [{ other: ['Nov 20 2021 - Nov 27 2021'] }], chosen: true },
   { id: 4, name: 'Summary', body: [{ other: ['What is the secret to success? It is the ability to persist through the process and endure its pain.'] }], chosen: true },
   { id: 5, name: 'Application to Life', body: [{ other: ['I will say out loud three times what I want to achieve in a day before I start my work,'] }], chosen: true },
-  { id: 6,
+  {
+    id: 6,
     name: 'Reflection of the book', body: [{
       other: ['I was quite surprised to realize that it is not really about my execution ability that is the problem but rather a simple mind trick can help me achieve my goals.']
     }], chosen: true
   },
-  { id: 7, name: 'Place I read the book', body: [{ other: ['Love Cafe at NyC']  }], chosen: true },
-  { id: 8, name: 'Song', body: [{ other: ['Chopin nocturne']  }], chosen: true },
-  { id: 9, name: 'Stationery', body: [{ other: ['Muji Gel Pen 0.38mm']  }], chosen: true }
+  { id: 7, name: 'Place I read the book', body: [{ other: ['Love Cafe at NyC'] }], chosen: true },
+  { id: 8, name: 'Song', body: [{ other: ['Chopin nocturne'] }], chosen: true },
+  { id: 9, name: 'Stationery', body: [{ other: ['Muji Gel Pen 0.38mm'] }], chosen: true }
 
-]; 
+];
 
 
 const font_themes = [
-  { id: 0, themeName: 'Classic', fontFamily : "'Bitter', serif"},
-  { id: 1, themeName: 'Handwritten-Playful', fontFamily : "'Caveat', cursive"},
-  { id: 2, themeName: 'Futuristic', fontFamily : "'DotGothic16', sans-serif"},
-  { id: 3, themeName: 'Refined', fontFamily : "'Nanum Myeongjo', serif"},
-  { id: 4, themeName: 'Traditional', fontFamily : "'PT Serif', serif"},
+  { id: 0, themeName: 'Classic', fontFamily: "'Bitter', serif" },
+  { id: 1, themeName: 'Handwritten-Playful', fontFamily: "'Caveat', cursive" },
+  { id: 2, themeName: 'Futuristic', fontFamily: "'DotGothic16', sans-serif" },
+  { id: 3, themeName: 'Refined', fontFamily: "'Nanum Myeongjo', serif" },
+  { id: 4, themeName: 'Traditional', fontFamily: "'PT Serif', serif" },
 ];
 
-function ItemList({ sections, onToggle, onEdit, onSelectTheme}) {
+function ItemList({ sections, onToggle, onEdit, onSelectTheme }) {
   const [editId, setEditId] = useState(null);
   const [editContent, setEditContent] = useState('');
-   
+
   const handleToggle = (id) => {
-    setEditId(null); 
+    setEditId(null);
     const updatedList = sections.map(section => {
       if (section.id === id) {
         return { ...section, chosen: !section.chosen };
@@ -60,7 +61,7 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme}) {
   const handleSave = (id) => {
     const updatedList = sections.map(section => {
       if (section.id === id) {
-        const updatedBody = [{ other: editContent.split("\n") }];  
+        const updatedBody = [{ other: editContent.split("\n") }];
         return { ...section, body: updatedBody };
       }
       return section;
@@ -124,6 +125,12 @@ export default function App() {
   const [list, setList] = useState(initialInput);
   const [selectedTheme, setSelectedTheme] = useState(null);
   const [layout, setLayout] = useState("vertical");
+  const [file, setFile] = useState();
+
+  function handleChange(e) {
+    console.log(e.target.files);
+    setFile(URL.createObjectURL(e.target.files[0]));
+  }
 
   const handleToggle = (updatedList) => {
     setList(updatedList);
@@ -137,7 +144,7 @@ export default function App() {
     setSelectedTheme(themeId);
   };
 
- 
+
 
   const toggleLayout = () => {
     setLayout(layout === "vertical" ? "horizontal" : "vertical");
@@ -150,6 +157,13 @@ export default function App() {
 
   return (
     <>
+
+      <h2>Add Image:</h2>
+      <input type="file" onChange={handleChange} />
+
+      <br></br>
+
+
       <h1>Book Summary</h1>
       <h2>Items selected: </h2>
       <button onClick={toggleLayout}>
@@ -162,7 +176,7 @@ export default function App() {
         onSelectTheme={handleSelectTheme}
       />
 
-      <h2>Overview </h2>  
+      <h2>Overview </h2>
 
       <div
         style={{
@@ -170,6 +184,9 @@ export default function App() {
           flexDirection: layout === "vertical" ? "column" : "row",
           fontFamily: getFontFamilyForTheme(selectedTheme),
         }}>
+
+        <img src={file} style={{ width: '100px', height: '100px' }} />
+
         {list.filter(section => section.chosen).map(section => (
           <div key={section.id}>
             {section.body.map(content => (

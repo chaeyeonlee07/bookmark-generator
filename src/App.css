@@ -4,8 +4,23 @@
   text-align: center;
 }
 
+<<<<<<< HEAD
  
  
+=======
+.img {
+  position: relative;
+  top: -50px;
+  max-width: 10px;
+  max-height: 10px;
+  width: 100%;
+  margin-right: 30px;
+  box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+    0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+
+}
+
+>>>>>>> 69c29c9 (iimage added)
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -36,6 +51,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
