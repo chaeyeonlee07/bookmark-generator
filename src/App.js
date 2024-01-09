@@ -1,5 +1,9 @@
+
 import React, { useState } from "react";
 import './App.css'
+import reading_girl1 from './bg/reading_girl1.jpg';
+import reading_girl2 from './bg/reading_girl2.jpg';
+import reading_girl3 from './bg/reading_girl3.png';
 
 <>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,7 +42,15 @@ const font_themes = [
   { id: 4, themeName: 'Traditional', fontFamily: "'PT Serif', serif" },
 ];
 
-function ItemList({ sections, onToggle, onEdit, onSelectTheme }) {
+const bookmark_bg = [
+  { id: 0, themeName: 'Reading Girl-Green', image_src: reading_girl1 },
+  { id: 1, themeName: 'Reading Girl-Orange', image_src: reading_girl2 },
+  { id: 2, themeName: 'Reading Girl-Yellow', image_src: reading_girl3 },
+
+];
+
+
+function ItemList({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) {
   const [editId, setEditId] = useState(null);
   const [editContent, setEditContent] = useState('');
 
@@ -74,6 +86,10 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme }) {
     onSelectTheme(themeId);
   }
 
+  const handleBgChange = (bgId) => {
+    onSelectBg(bgId);
+  }
+
   return (
     <div>
       <ul>
@@ -106,7 +122,17 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme }) {
           </li>
         ))}
       </ul>
+      <h3>Select your Bookmark:</h3>
+      <ul>
+        {bookmark_bg.map(bg => (
+          <li key={bg.id}>
+            <buttom onClick={() => handleBgChange(bg.id)}>{bg.themeName}</buttom>
+          </li>
+        ))}
 
+      </ul>
+      <div>
+      </div>
       <div>
         <h3>Select Font Theme:</h3>
         <ul>
@@ -124,6 +150,7 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme }) {
 export default function App() {
   const [list, setList] = useState(initialInput);
   const [selectedTheme, setSelectedTheme] = useState(null);
+  const [selectedBg, setSelectedBg] = useState(null);
   const [layout, setLayout] = useState("vertical");
   const [file, setFile] = useState();
 
@@ -144,6 +171,10 @@ export default function App() {
 
   const handleSelectTheme = (themeId) => {
     setSelectedTheme(themeId);
+  };
+
+  const handleSelectBg = (bgId) => {
+    setSelectedBg(bgId);
   };
 
 
@@ -176,17 +207,32 @@ export default function App() {
         onToggle={handleToggle}
         onEdit={handleEdit}
         onSelectTheme={handleSelectTheme}
+        onSelectBg={handleSelectBg}
       />
 
       <h2>Overview </h2>
 
       <div
         style={{
-          display: layout === "vertical" ? "block" : "flex",
-          flexDirection: layout === "vertical" ? "column" : "row",
+          backgroundImage:
+            selectedBg !== null && bookmark_bg[selectedBg]
+              ? `url(${bookmark_bg[selectedBg].image_src})`
+              : 'none',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          position: 'relative',
+          display: layout === 'vertical' ? 'block' : 'flex',
+          flexDirection: layout === 'vertical' ? 'column' : 'row',
           fontFamily: getFontFamilyForTheme(selectedTheme),
-        }}>
-
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          padding: '20px',
+          wordWrap: 'break-word',
+          maxWidth: '80%',
+        }}
+      >
         {file && <img src={file} style={{ width: '100px', height: '100px' }} />}
 
         {list.filter(section => section.chosen).map(section => (
@@ -204,6 +250,6 @@ export default function App() {
       </div>
 
     </>
-
   );
+
 }
