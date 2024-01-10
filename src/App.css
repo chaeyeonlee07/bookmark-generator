@@ -1,13 +1,7 @@
-
-
 .App {
   text-align: center;
 }
 
-<<<<<<< HEAD
- 
- 
-=======
 .img {
   position: relative;
   top: -50px;
@@ -18,9 +12,15 @@
   box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
     0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
 
+
 }
 
->>>>>>> 69c29c9 (iimage added)
+.box {
+  inline-size: 150px;
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -42,6 +42,8 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+
 
 .App-link {
   color: #61dafb;

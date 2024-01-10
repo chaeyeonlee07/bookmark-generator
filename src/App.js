@@ -1,9 +1,12 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import './App.css'
 import reading_girl1 from './bg/reading_girl1.jpg';
 import reading_girl2 from './bg/reading_girl2.jpg';
 import reading_girl3 from './bg/reading_girl3.png';
+import { exportComponentAsPNG } from 'react-component-export-image';
+
+
 
 <>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,8 +52,7 @@ const bookmark_bg = [
 
 ];
 
-
-function ItemList({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) {
+const ItemList = ({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) => {
   const [editId, setEditId] = useState(null);
   const [editContent, setEditContent] = useState('');
 
@@ -91,7 +93,7 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) {
   }
 
   return (
-    <div>
+    <div style={{ fontSize: 14 }}>
       <ul>
         {sections.map(section => (
           <li key={section.id}>
@@ -111,7 +113,16 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) {
                       onChange={(e) => setEditContent(e.target.value)}
                       rows={8}
                       cols={50}
+                      maxLength={section.id === 0 || section.id === 1 || section.id === 2 || section.id === 3
+                        || section.id === 7
+                        || section.id === 8
+                        || section.id === 9
+                        ? 30 : 200}
                     ></textarea>
+                    <p>Character Limit: {section.id === 0 || section.id === 1 || section.id === 2 || section.id === 3
+                      || section.id === 7
+                      || section.id === 8
+                      || section.id === 9 ? 30 : 200}</p>
                     <button onClick={() => handleSave(section.id)}>Save</button>
                   </div>
                 ) : (
@@ -122,19 +133,18 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) {
           </li>
         ))}
       </ul>
-      <h3>Select your Bookmark:</h3>
+      <h4>Select your Bookmark:</h4>
       <ul>
         {bookmark_bg.map(bg => (
           <li key={bg.id}>
-            <buttom onClick={() => handleBgChange(bg.id)}>{bg.themeName}</buttom>
+            <button onClick={() => handleBgChange(bg.id)}>{bg.themeName}</button>
           </li>
         ))}
-
       </ul>
       <div>
       </div>
       <div>
-        <h3>Select Font Theme:</h3>
+        <h4>Select Font Theme:</h4>
         <ul>
           {font_themes.map(theme => (
             <li key={theme.id}>
@@ -147,14 +157,15 @@ function ItemList({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) {
   );
 }
 
-export default function App() {
+const App = () => {
   const [list, setList] = useState(initialInput);
   const [selectedTheme, setSelectedTheme] = useState(null);
   const [selectedBg, setSelectedBg] = useState(null);
   const [layout, setLayout] = useState("vertical");
   const [file, setFile] = useState();
+  const printRef = useRef();
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
       setFile(URL.createObjectURL(uploadedFile));
@@ -177,8 +188,6 @@ export default function App() {
     setSelectedBg(bgId);
   };
 
-
-
   const toggleLayout = () => {
     setLayout(layout === "vertical" ? "horizontal" : "vertical");
   };
@@ -190,15 +199,8 @@ export default function App() {
 
   return (
     <>
-
-      <h2>Add Image:</h2>
-      <input type="file" onChange={handleChange} />
-
-      <br></br>
-
-
-      <h1>Book Summary</h1>
-      <h2>Items selected: </h2>
+      <h1>Make Your Bookmark</h1>
+      <h4>Items selected: </h4>
       <button onClick={toggleLayout}>
         Toggle Layout ({layout === "vertical" ? "Horizontal" : "Vertical"})
       </button>
@@ -209,10 +211,13 @@ export default function App() {
         onSelectTheme={handleSelectTheme}
         onSelectBg={handleSelectBg}
       />
-
-      <h2>Overview </h2>
-
-      <div
+      <h4>Add Image:</h4>
+      <input type="file" onChange={handleChange} />
+      <h4>Export Bookmark as Image:</h4>
+      <button onClick={() => exportComponentAsPNG(printRef)}>
+        Export As PNG
+      </button>
+      <div className="item-img" ref={printRef}
         style={{
           backgroundImage:
             selectedBg !== null && bookmark_bg[selectedBg]
@@ -220,36 +225,45 @@ export default function App() {
               : 'none',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
-          position: 'relative',
+          backgroundPosition: 'center',
           display: layout === 'vertical' ? 'block' : 'flex',
           flexDirection: layout === 'vertical' ? 'column' : 'row',
           fontFamily: getFontFamilyForTheme(selectedTheme),
           position: 'absolute',
           top: '50%',
+          flex: 1,
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          padding: '20px',
-          wordWrap: 'break-word',
-          maxWidth: '80%',
+          padding: '15px',
+          maxWidth: '90%',
+          margin: '11px',
+          fontSize: 12,
         }}
       >
         {file && <img src={file} style={{ width: '100px', height: '100px' }} />}
-
-        {list.filter(section => section.chosen).map(section => (
-          <div key={section.id}>
-            {section.body.map(content => (
-              <p key={section.id}>
-                <strong>{section.name}</strong> <br></br>
-                {content.other.map((item, index) => (
-                  <span key={index}>{item}</span>
-                ))}
-              </p>
-            ))}
-          </div>
-        ))}
+        <div className="box" >
+          {list.filter(section => section.chosen).map(section => (
+            <div key={section.id}>
+              {section.body.map(content => (
+                <p
+                  key={section.id}
+                  style={{
+                    wordWrap: 'break-word',
+                  }}
+                >
+                  <strong>{`${section.name} `}</strong>
+                  {content.other.map((item, index) => (
+                    <span key={index}>{item}</span>
+                  ))}
+                </p>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
     </>
   );
-
 }
+
+export default App;
