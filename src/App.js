@@ -1,4 +1,4 @@
-
+import { Button } from 'flowbite-react';
 import React, { useState, useRef } from "react";
 import './App.css'
 import reading_girl1 from './bg/reading_girl1.jpg';
@@ -126,7 +126,17 @@ const ItemList = ({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) => 
                     <button onClick={() => handleSave(section.id)}>Save</button>
                   </div>
                 ) : (
-                  <button onClick={() => handleEdit(section.id, section.body[0].other.join("\n"))}>Edit</button>
+                  <button
+                    style={{
+                      background: 'linear-gradient(to right, #f030a9, #f030a9)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '10%',
+                      padding: '1px',
+                    }} onClick={() => handleEdit(section.id, section.body[0].other.join("\n"))}
+                    onMouseOver={(e) => e.target.style.background = '#e6e335'}
+                    onMouseOut={(e) => e.target.style.background = 'linear-gradient(to right, #f030a9, #e6e335)'}
+                  >Edit</button>
                 )}
               </>
             )}
@@ -148,7 +158,15 @@ const ItemList = ({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) => 
         <ul>
           {font_themes.map(theme => (
             <li key={theme.id}>
-              <button onClick={() => handleThemeChange(theme.id)}>{theme.themeName}</button>
+              <button style={{
+                fontFamily: theme.fontFamily,
+                background: 'linear-gradient(to right, #feafbd, #feafbd)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '10%',
+                padding: '1px',
+              }} onClick={() => handleThemeChange(theme.id)} onMouseOver={(e) => e.target.style.background = '#ffe6eb'}
+                onMouseOut={(e) => e.target.style.background = 'linear-gradient(to right, #feafbd, #feafbd)'}>{theme.themeName}</button>
             </li>
           ))}
         </ul>
@@ -161,7 +179,6 @@ const App = () => {
   const [list, setList] = useState(initialInput);
   const [selectedTheme, setSelectedTheme] = useState(null);
   const [selectedBg, setSelectedBg] = useState(null);
-  const [layout, setLayout] = useState("vertical");
   const [file, setFile] = useState();
   const printRef = useRef();
 
@@ -188,9 +205,7 @@ const App = () => {
     setSelectedBg(bgId);
   };
 
-  const toggleLayout = () => {
-    setLayout(layout === "vertical" ? "horizontal" : "vertical");
-  };
+
 
   const getFontFamilyForTheme = (themeId) => {
     const selectedTheme = font_themes.find(font_themes => font_themes.id === themeId);
@@ -198,12 +213,11 @@ const App = () => {
   };
 
   return (
-    <>
+    <div id="fullpage" style={{ backgroundColor: '#fbe3ff', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
       <h1>Make Your Bookmark</h1>
+      <p>Note: If the bookmark's image is being cut off, then add more contents into your bookmark!</p>
       <h4>Items selected: </h4>
-      <button onClick={toggleLayout}>
-        Toggle Layout ({layout === "vertical" ? "Horizontal" : "Vertical"})
-      </button>
+
       <ItemList
         sections={list}
         onToggle={handleToggle}
@@ -217,7 +231,7 @@ const App = () => {
       <button onClick={() => exportComponentAsPNG(printRef)}>
         Export As PNG
       </button>
-      <div className="item-img" ref={printRef}
+      <div className={`item-img`} ref={printRef}
         style={{
           backgroundImage:
             selectedBg !== null && bookmark_bg[selectedBg]
@@ -226,8 +240,6 @@ const App = () => {
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          display: layout === 'vertical' ? 'block' : 'flex',
-          flexDirection: layout === 'vertical' ? 'column' : 'row',
           fontFamily: getFontFamilyForTheme(selectedTheme),
           position: 'absolute',
           top: '50%',
@@ -262,7 +274,7 @@ const App = () => {
         </div>
       </div>
 
-    </>
+    </div>
   );
 }
 

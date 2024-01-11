@@ -18,13 +18,30 @@
 .box {
   inline-size: 150px;
   overflow-wrap: break-word;
-  hyphens: manual;
+}
+
+#fullpage {
+  padding: 4px 10px;
+
+  overscroll-behavior: none;
+
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
+.vertical-layout {
+  display: block;
+  flex-direction: column;
+}
+
+.horizontal-layout {
+  display: flex;
+  flex-direction: row;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
