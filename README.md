@@ -10,3 +10,4 @@ Try this your self: https://bookmark-generator.vercel.app/
 
 <img width="800" alt="Screen Shot 2024-01-12 at 2 11 17 PM" src="https://github.com/chaeyeonlee07/bookmark-generator/assets/130931438/ee06f525-fea8-412b-99a4-ffa6e15bfd17">
 <img width="800" alt="Screen Shot 2024-01-12 at 2 10 59 PM" src="https://github.com/chaeyeonlee07/bookmark-generator/assets/130931438/588140b5-b1b9-455b-a1bf-aa32264e73c7">
+<img width="744" alt="Screen Shot 2024-01-12 at 2 13 03 PM" src="https://github.com/chaeyeonlee07/bookmark-generator/assets/130931438/aebc06b4-2458-41cf-ad9f-2bd9e4b02abd">
