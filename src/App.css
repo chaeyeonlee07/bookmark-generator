@@ -60,6 +60,10 @@
   color: white;
 }
 
+input[type="checkbox"] {
+  accent-color: #ee7b23
+}
+
 
 
 .App-link {

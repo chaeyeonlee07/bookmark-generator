@@ -4,7 +4,10 @@ import './App.css'
 import reading_girl1 from './bg/reading_girl1.jpg';
 import reading_girl2 from './bg/reading_girl2.jpg';
 import reading_girl3 from './bg/reading_girl3.png';
+
 import { exportComponentAsPNG } from 'react-component-export-image';
+import './fonts/Caprasimo-Regular.ttf';
+import './fonts/EduVICWANTBeginner-VariableFont_wght.ttf';
 
 
 
@@ -12,7 +15,7 @@ import { exportComponentAsPNG } from 'react-component-export-image';
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Bitter&family=Caveat:wght@600&family=Concert+One&family=Dancing+Script:wght@600&family=DotGothic16&family=Genos:ital@1&family=Merienda&family=Nanum+Myeongjo&family=Nunito:wght@300&family=PT+Serif&family=Single+Day&family=Yantramanav&family=Zeyada&family=Zilla+Slab:ital,wght@1,500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bitter&family=Edu+VIC+WA+NT+Beginner&family=Caveat:wght@600&family=Caprasimo&family=Concert+One&family=Dancing+Script:wght@600&family=DotGothic16&family=Genos:ital@1&family=Merienda&family=Nanum+Myeongjo&family=Nunito:wght@300&family=PT+Serif&family=Single+Day&family=Yantramanav&family=Zeyada&family=Zilla+Slab:ital,wght@1,500&display=swap"
     rel="stylesheet"
   />
 </>
@@ -94,55 +97,67 @@ const ItemList = ({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) => 
 
   return (
     <div style={{ fontSize: 14 }}>
-      <ul>
-        {sections.map(section => (
-          <li key={section.id}>
-            <label>
-              <input
-                type="checkbox"
-                checked={section.chosen}
-                onChange={() => handleToggle(section.id)}
-              /> {section.name}
-            </label>
-            {section.chosen && (
-              <>
-                {editId === section.id ? (
-                  <div>
-                    <textarea
-                      value={editContent}
-                      onChange={(e) => setEditContent(e.target.value)}
-                      rows={8}
-                      cols={50}
-                      maxLength={section.id === 0 || section.id === 1 || section.id === 2 || section.id === 3
-                        || section.id === 7
-                        || section.id === 8
-                        || section.id === 9
-                        ? 30 : 200}
-                    ></textarea>
-                    <p>Character Limit: {section.id === 0 || section.id === 1 || section.id === 2 || section.id === 3
+
+      {sections.map(section => (
+        <ul key={section.id} style={{ margin: '13px -10px' }} >
+          <label >
+            <input
+              type="checkbox"
+              checked={section.chosen}
+              onChange={() => handleToggle(section.id)}
+            /> {section.name}
+          </label>
+          {section.chosen && (
+            <>
+              {editId === section.id ? (
+                <div>
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    rows={8}
+                    cols={30}
+                    style={{
+                      border: 'none',
+                      outline: 'none',
+                      backgroundColor: '#f5c884',
+                      borderRadius: '10px',
+                      margin: '10px',
+                    }}
+
+                    maxLength={section.id === 0 || section.id === 1 || section.id === 2 || section.id === 3
                       || section.id === 7
                       || section.id === 8
-                      || section.id === 9 ? 30 : 200}</p>
-                    <button onClick={() => handleSave(section.id)}>Save</button>
-                  </div>
-                ) : (
-                  <button
-                    style={{
-                      background: 'linear-gradient(to right, #f030a9, #f030a9)',
-                      color: '#fff',
-                      border: 'none',
-                      borderRadius: '10%',
-                      padding: '1px',
-                    }} onClick={() => handleEdit(section.id, section.body[0].other.join("\n"))}
-                    onMouseOver={(e) => e.target.style.background = '#e6e335'}
-                    onMouseOut={(e) => e.target.style.background = 'linear-gradient(to right, #f030a9, #e6e335)'}
-                  >Edit</button>
-                )}
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+                      || section.id === 9
+                      ? 30 : 200}
+                  ></textarea>
+                  <p>Character Limit: {section.id === 0 || section.id === 1 || section.id === 2 || section.id === 3
+                    || section.id === 7
+                    || section.id === 8
+                    || section.id === 9 ? 30 : 200}</p>
+                  <button style={{
+                    color: 'white', backgroundColor: '#eb8634', border: 'none',
+                    outline: 'none', borderRadius: '10px', margin: '0px 0px'
+                  }} onClick={() => handleSave(section.id)}>Save</button>
+                </div>
+              ) : (
+                <button
+                  style={{
+                    background: '#ed9a2d',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '30%',
+                    padding: '2px 2px',
+                    margin: '0px 5px',
+                  }} onClick={() => handleEdit(section.id, section.body[0].other.join("\n"))}
+                  onMouseOver={(e) => e.target.style.background = '#f07e32'}
+                  onMouseOut={(e) => e.target.style.background = '#ed9a2d'}
+                >  Edit   </button>
+              )}
+            </>
+          )}
+        </ul>
+      ))}
+
       <h4>Select your Bookmark:</h4>
       <ul>
         {bookmark_bg.map(bg => (
@@ -160,13 +175,15 @@ const ItemList = ({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) => 
             <li key={theme.id}>
               <button style={{
                 fontFamily: theme.fontFamily,
-                background: 'linear-gradient(to right, #feafbd, #feafbd)',
+                background: '#123d5e',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '10%',
                 padding: '1px',
-              }} onClick={() => handleThemeChange(theme.id)} onMouseOver={(e) => e.target.style.background = '#ffe6eb'}
-                onMouseOut={(e) => e.target.style.background = 'linear-gradient(to right, #feafbd, #feafbd)'}>{theme.themeName}</button>
+                margin: '4px 4px'
+              }} onClick={() => handleThemeChange(theme.id)} onMouseOver={(e) => e.target.style.background = '#6d7b86'}
+                onMouseOut={(e) => e.target.style.background = '#123d5e'}>{theme.themeName}</button>
+
             </li>
           ))}
         </ul>
@@ -213,9 +230,9 @@ const App = () => {
   };
 
   return (
-    <div id="fullpage" style={{ backgroundColor: '#fbe3ff', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
-      <h1>Make Your Bookmark</h1>
-      <p>Note: If the bookmark's image is being cut off, then add more contents into your bookmark!</p>
+    <div id="fullpage" style={{ backgroundColor: '#f0e4d3', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
+      <h1 style={{ fontFamily: 'Caprasimo', color: '#578c7f' }}>Make Your Bookmark</h1>
+      <p style={{ fontFamily: "'Edu VIC WA NT Beginner', cursive" }}>Note: If the bookmark's image is being cut off, then add more contents into your bookmark!</p>
       <h4>Items selected: </h4>
 
       <ItemList
@@ -245,8 +262,8 @@ const App = () => {
           top: '50%',
           flex: 1,
           left: '50%',
-          transform: 'translate(-50%, -50%)',
-          padding: '15px',
+          transform: 'translate(-30%, -40%)',
+          padding: '3px',
           maxWidth: '90%',
           margin: '11px',
           fontSize: 12,
@@ -274,7 +291,7 @@ const App = () => {
         </div>
       </div>
 
-    </div>
+    </div >
   );
 }
 
