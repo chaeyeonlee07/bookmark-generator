@@ -4,21 +4,7 @@ import './App.css'
 import reading_girl1 from './bg/reading_girl1.jpg';
 import reading_girl2 from './bg/reading_girl2.jpg';
 import reading_girl3 from './bg/reading_girl3.png';
-
 import { exportComponentAsPNG } from 'react-component-export-image';
-import './fonts/Caprasimo-Regular.ttf';
-import './fonts/EduVICWANTBeginner-VariableFont_wght.ttf';
-
-
-
-<>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bitter&family=Edu+VIC+WA+NT+Beginner&family=Caveat:wght@600&family=Caprasimo&family=Concert+One&family=Dancing+Script:wght@600&family=DotGothic16&family=Genos:ital@1&family=Merienda&family=Nanum+Myeongjo&family=Nunito:wght@300&family=PT+Serif&family=Single+Day&family=Yantramanav&family=Zeyada&family=Zilla+Slab:ital,wght@1,500&display=swap"
-    rel="stylesheet"
-  />
-</>
 
 const initialInput = [
   { id: 0, name: 'Title', body: [{ other: ['Grit'] }], chosen: true },
@@ -119,7 +105,7 @@ const ItemList = ({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) => 
                     style={{
                       border: 'none',
                       outline: 'none',
-                      backgroundColor: '#f5c884',
+                      backgroundColor: '#faaf6a',
                       borderRadius: '10px',
                       margin: '10px',
                     }}
@@ -159,36 +145,54 @@ const ItemList = ({ sections, onToggle, onEdit, onSelectTheme, onSelectBg }) => 
       ))}
 
       <h4>Select your Bookmark:</h4>
-      <ul>
+      <ul style={{ margin: '0px -20px' }}>
         {bookmark_bg.map(bg => (
-          <li key={bg.id}>
-            <button onClick={() => handleBgChange(bg.id)}>{bg.themeName}</button>
-          </li>
-        ))}
-      </ul>
+          <button
+            key={bg.id}
+            style={{
+              background: '#fdd995',
+              border: 'none',
+              borderRadius: '10%',
+              padding: '1px',
+              margin: '4px 4px'
+            }}
+
+            onClick={() => handleBgChange(bg.id)}
+            onMouseOver={(e) => e.target.style.background = '#f99a54'}
+            onMouseOut={(e) => e.target.style.background = '#fdd995'}
+          >
+            {bg.themeName}
+          </button>
+        ))
+        }
+
+      </ul >
       <div>
       </div>
       <div>
         <h4>Select Font Theme:</h4>
-        <ul>
+        <ul style={{ margin: '0px -20px' }}>
           {font_themes.map(theme => (
-            <li key={theme.id}>
-              <button style={{
+            <button
+              key={theme.id}
+              style={{
                 fontFamily: theme.fontFamily,
-                background: '#123d5e',
-                color: '#fff',
+                background: '#fdd995',
                 border: 'none',
                 borderRadius: '10%',
                 padding: '1px',
                 margin: '4px 4px'
-              }} onClick={() => handleThemeChange(theme.id)} onMouseOver={(e) => e.target.style.background = '#6d7b86'}
-                onMouseOut={(e) => e.target.style.background = '#123d5e'}>{theme.themeName}</button>
-
-            </li>
+              }}
+              onClick={() => handleThemeChange(theme.id)}
+              onMouseOver={(e) => e.target.style.background = '#f99a54'}
+              onMouseOut={(e) => e.target.style.background = '#fdd995'}
+            >
+              {theme.themeName}
+            </button>
           ))}
         </ul>
       </div>
-    </div>
+    </div >
   );
 }
 
@@ -230,68 +234,82 @@ const App = () => {
   };
 
   return (
-    <div id="fullpage" style={{ backgroundColor: '#f0e4d3', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
-      <h1 style={{ fontFamily: 'Caprasimo', color: '#578c7f' }}>Make Your Bookmark</h1>
-      <p style={{ fontFamily: "'Edu VIC WA NT Beginner', cursive" }}>Note: If the bookmark's image is being cut off, then add more contents into your bookmark!</p>
-      <h4>Items selected: </h4>
-
-      <ItemList
-        sections={list}
-        onToggle={handleToggle}
-        onEdit={handleEdit}
-        onSelectTheme={handleSelectTheme}
-        onSelectBg={handleSelectBg}
-      />
-      <h4>Add Image:</h4>
-      <input type="file" onChange={handleChange} />
-      <h4>Export Bookmark as Image:</h4>
-      <button onClick={() => exportComponentAsPNG(printRef)}>
-        Export As PNG
-      </button>
-      <div className={`item-img`} ref={printRef}
-        style={{
-          backgroundImage:
-            selectedBg !== null && bookmark_bg[selectedBg]
-              ? `url(${bookmark_bg[selectedBg].image_src})`
-              : 'none',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          fontFamily: getFontFamilyForTheme(selectedTheme),
-          position: 'absolute',
-          top: '50%',
-          flex: 1,
-          left: '50%',
-          transform: 'translate(-30%, -40%)',
-          padding: '3px',
-          maxWidth: '90%',
-          margin: '11px',
-          fontSize: 12,
+    <html>
+      <div id="fullpage" style={{ backgroundColor: '#feeeab', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', margin: '5px 5px' }}>
+        <h1 style={{ color: '#f8853e', fontWeight: '35' }}>Make Your Own Bookmark</h1>
+        <button style={{
+          background: '#ed9a2d',
+          color: '#fff',
+          border: 'none',
+          padding: '4px 4px',
+          margin: '0px 5px',
+          borderRadius: '10px',
         }}
-      >
-        {file && <img src={file} style={{ width: '100px', height: '100px' }} />}
-        <div className="box" >
-          {list.filter(section => section.chosen).map(section => (
-            <div key={section.id}>
-              {section.body.map(content => (
-                <p
-                  key={section.id}
-                  style={{
-                    wordWrap: 'break-word',
-                  }}
-                >
-                  <strong>{`${section.name} `}</strong>
-                  {content.other.map((item, index) => (
-                    <span key={index}>{item}</span>
-                  ))}
-                </p>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
+          onMouseOver={(e) => e.target.style.background = '#f07e32'}
+          onMouseOut={(e) => e.target.style.background = '#ed9a2d'}
+          onClick={() => exportComponentAsPNG(printRef)} >
+          Export Your Bookmark as PNG
+        </button>
+        <p>Note: If the bookmark's image is being cut off, then add more contents into your bookmark!</p>
+        <h4>Items selected: </h4>
 
-    </div >
+        <ItemList
+          sections={list}
+          onToggle={handleToggle}
+          onEdit={handleEdit}
+          onSelectTheme={handleSelectTheme}
+          onSelectBg={handleSelectBg}
+        />
+        <h4>Add Image:</h4>
+        <label class="custom-file-upload">
+          <input type="file" onChange={handleChange} />Choose Image</label>
+        <div className={`item-img`} ref={printRef}
+          style={{
+            backgroundImage:
+              selectedBg !== null && bookmark_bg[selectedBg]
+                ? `url(${bookmark_bg[selectedBg].image_src})`
+                : '',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            fontFamily: getFontFamilyForTheme(selectedTheme),
+            position: 'absolute',
+            top: '50%',
+            flex: 1,
+            left: '50%',
+            transform: 'translate(80%, -50%)',
+            padding: '3px',
+            maxWidth: '300%',
+            margin: '11x',
+            fontSize: 12,
+
+          }}
+        >
+          {file && <img src={file} style={{ width: '100px', height: '100px' }} />}
+          <div className="box" >
+            {list.filter(section => section.chosen).map(section => (
+              <div key={section.id}>
+                {section.body.map(content => (
+                  <p
+                    key={section.id}
+                    style={{
+                      wordWrap: 'break-word',
+                    }}
+                  >
+                    <strong>{`${section.name} `}</strong>
+                    {content.other.map((item, index) => (
+                      <span key={index}>{item}</span>
+                    ))}
+                  </p>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div >
+
+    </html>
   );
 }
 

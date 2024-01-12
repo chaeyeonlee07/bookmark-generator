@@ -64,6 +64,9 @@ input[type="checkbox"] {
   accent-color: #ee7b23
 }
 
+html {
+  background-color: #feeeab;
+}
 
 
 .App-link {
@@ -78,4 +81,28 @@ input[type="checkbox"] {
   to {
     transform: rotate(360deg);
   }
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  background-color: #ed9a2d;
+  padding: 2px 2px;
+  cursor: pointer;
+  color: white;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.custom-file-upload:hover {
+  display: inline-block;
+  background-color: #f07e32;
+  padding: 2px 2px;
+  cursor: pointer;
+  color: white;
+  border-radius: 10px;
+  font-size: 12px;
 }
